@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -52,6 +54,7 @@ public class User extends BaseEntity {
 
     @CreationTimestamp // 시간이 자동 입력
     private Timestamp createDate;
-//    private ~~ profileImg;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Diary> diaryList = new ArrayList<>();
 }
