@@ -15,7 +15,7 @@ public class ViewController {
     }
 
     // 로그인
-    @GetMapping("/login")
+    @GetMapping("/users/login")
     public String login(){
         return "login";
     }
@@ -27,10 +27,10 @@ public class ViewController {
     }
 
     // 로그아웃 구현
-    @GetMapping("/logout")
+    @GetMapping("/users/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
         new SecurityContextLogoutHandler().logout(request, response,
                 SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
 }
