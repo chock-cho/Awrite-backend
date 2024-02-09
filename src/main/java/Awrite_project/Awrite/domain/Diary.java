@@ -7,8 +7,10 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -36,31 +38,51 @@ public class Diary extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user; // 작성자 pk(FK)
 
-    private LocalDate created_at; // 생성 시간
+//    private LocalDateTime createdAt_LD; // 생성 시간(년월)
     @PrePersist
-    public void created_at(){
-        this.created_at = LocalDate.now();
-        setMonth(created_at);
+    public void createdAt(){
+        this.createdAt = LocalDateTime.now();
+        setMonth(createdAt);
     }
 
     public String month; // 연월
-    public void setMonth(LocalDate created_at){
-        String year = Integer.toString(created_at.getYear());
-        String month = Integer.toString(created_at.getMonthValue());
-        this.month = year+month;
+    public void setMonth(LocalDateTime createdAt){
+        String year = Integer.toString(createdAt.getYear());
+        String month = Integer.toString(createdAt.getMonthValue());
+        this.month = year + month;
     }
     @Column
     private String imageUrl; // 첨부 이미지 파일
 
     private boolean secret; // 비밀글 여부(공개/비공개 여부)
 
-    public Diary(User user, String content) {
-        this.user = user;
-        this.content = content;
-    }
+//    public Diary(User user, String content) {
+//        this.user = user;
+//        this.content = content;
+//    }
 
+    @OneToMany(mappedBy = "diary")
+    private List<Heart> hearts = new ArrayList<>();
+
+    @Builder
+    public Diary(User user, String title, String content, String month, LocalDateTime createdAt) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.month = month;
+        this.createdAt = createdAt;
+    }
 
     public boolean isWrittenBy(User user) {
         return this.user == user;
+    }
+
+//    public boolean isHeartBy(User user) {
+//        Objects.requireNonNull(user);
+//        return this.hearts.stream().anyMatch(it -> it.getUser() == user);
+//    }
+
+    public long countHearts() {
+        return this.hearts.size();
     }
 }

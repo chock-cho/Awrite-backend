@@ -15,12 +15,12 @@ import jakarta.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/users")
+//@RequestMapping("/users")
 public class UserRestController {
 
     private final UserCommandService userCommandService;
 
-    @PostMapping("/")
+    @PostMapping("/users/signup")
     public ApiResponse<UserResponseDTO.JoinResultDTO> join(@RequestBody @Valid UserRequestDTO.JoinDto request){
         User member = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(member));
