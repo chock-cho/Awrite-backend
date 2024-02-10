@@ -29,8 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'org.jetbrains:annotations:24.0.0'
 	compileOnly 'org.projectlombok:lombok'

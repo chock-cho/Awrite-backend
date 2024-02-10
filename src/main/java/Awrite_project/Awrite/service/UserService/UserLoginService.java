@@ -4,6 +4,9 @@ import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +16,8 @@ public class UserLoginService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     // loginEmail 중복 체크
     // 중복 되면 true return
-
     public boolean checkLoginEmailDuplicated(String loginEmail){
         return userRepository.existsByEmail(loginEmail);
     }
@@ -30,8 +30,8 @@ public class UserLoginService {
     public User login(String loginEmail, String loginPwd){
         User user = userRepository.findByEmail(loginEmail);
 
-        if(user != null && passwordEncoder.matches(loginPwd, user.getPassword())){
-            // 비밀번호 해시화하여 저장한 값과 로그인 시도하는 패스워드가 같은지 확인하는 로직
+        if(user != null && loginPwd.equals(user.getPassword())){
+            // DB에 비밀번호 저장한 값과 로그인 시도하는 패스워드가 같은지 확인하는 로직
             // 비밀번호 일치 -> 회원 객체 반환
             return user;
         }
@@ -40,4 +40,6 @@ public class UserLoginService {
             return null;
         }
     }
+
+
 }

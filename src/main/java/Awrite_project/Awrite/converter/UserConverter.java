@@ -1,8 +1,8 @@
 package Awrite_project.Awrite.converter;
 
 import Awrite_project.Awrite.domain.User;
-import Awrite_project.Awrite.web.dto.UserRequestDTO;
-import Awrite_project.Awrite.web.dto.UserResponseDTO;
+import Awrite_project.Awrite.web.dto.JoinDTO.UserRequestDTO;
+import Awrite_project.Awrite.web.dto.JoinDTO.UserResponseDTO;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +19,9 @@ public class UserConverter {
 
         return User.builder()
                 .nickname(request.getNickname())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .profilePicture(1)
                 .build();
     }
 }

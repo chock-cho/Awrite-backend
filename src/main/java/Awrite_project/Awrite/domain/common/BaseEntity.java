@@ -1,8 +1,6 @@
 package Awrite_project.Awrite.domain.common;
 
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,20 +12,19 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING, columnDefinition = "VARCHAR(255) DEFAULT 'UserType'")
 public abstract class BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
+    private Long id;
 
     @CreatedDate
     public LocalDateTime createdAt;
 
     @LastModifiedDate
     public LocalDateTime updatedAt;
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 
 }

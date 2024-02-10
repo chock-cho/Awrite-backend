@@ -1,4 +1,4 @@
-package Awrite_project.Awrite.web.dto;
+package Awrite_project.Awrite.web.dto.JoinDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

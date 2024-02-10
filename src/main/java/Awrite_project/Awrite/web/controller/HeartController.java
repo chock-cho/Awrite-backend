@@ -19,16 +19,18 @@ public class HeartController {
     private final HeartService heartService;
 
     @PostMapping("/hearts/{diaryId}/{userId}")
-    // @PostMapping("/articles/{articleId}/likes")
+    // @PostMapping("/diary/{diaryId}/heart")
     public ResponseEntity<Void> addHeart(User user, @PathVariable Long diaryId) {
         Heart heart = heartService.addHeart(user, diaryId);
-        return ResponseEntity
-                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
-                .build();
+//        return ResponseEntity
+//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
+//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
+//                .build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/hearts/{diaryId}/{userId}")
-//    @DeleteMapping("/articles/{articleId}/likes")
+//    @DeleteMapping("/diary/{diaryId}/heart")
     public ResponseEntity<Void> deleteHeart(User user, @PathVariable Long diaryId) {
         heartService.deleteHeart(user, diaryId);
         return ResponseEntity.noContent().build();

@@ -1,7 +1,7 @@
 package Awrite_project.Awrite.service.UserService;
 
 import Awrite_project.Awrite.domain.User;
-import Awrite_project.Awrite.web.dto.UserRequestDTO;
+import Awrite_project.Awrite.web.dto.JoinDTO.UserRequestDTO;
 
 public interface UserCommandService {
 
