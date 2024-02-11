@@ -69,4 +69,13 @@ public class MyPageService {
         // 회원 탈퇴 -> 사용자 삭제
         userRepository.delete(user);
     }
+
+    // 좋아요 많은 순 5개 일기 조회
+
+    // 좋아요 많은 순 5개 일기 상세 조회
+
+    // 날짜별 일기 상세 조회
+
+    // 상세 조회 시 일기 삭제
+
 }

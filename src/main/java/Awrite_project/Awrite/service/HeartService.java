@@ -16,44 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class HeartService {
 
-    private final HeartRepository heartRepository;
-    private final DiaryRepository diaryRepository;
+    // 모든 좋아요 일기 리스트 조회
 
-    public Heart addHeart(User user, Long diaryId) {
-        Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(() -> new TempHandler(ErrorStatus.ARTICLE_NOT_FOUND));
+    // 좋아요 일기 상세 조회
 
-        Heart heart = new Heart(user, diary);
-
-        return heartRepository.save(heart);
-
-//        try {
-//            return heartRepository.save(heart);
-//        } catch (DataIntegrityViolationException e) {
-//            throw new DuplicateArticleLikeException(member.getId(), articleId);
-//        }
-    }
-
-    public void deleteHeart(User user, Long diaryId) {
-        Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(() -> new TempHandler(ErrorStatus.ARTICLE_NOT_FOUND));
-
-        heartRepository.deleteByUserAndDiary(user, diary);
-    }
+    // 좋아요 일기 좋아요 취소
 
 }
-
-//@Service
-//public class HeartService {
-//
-//    @Autowired
-//    private HeartRepository heartsRepository;
-//
-//    // 다른 사용자들의 일기에 좋아요 등록
-//    public void addHeart(User user, Diary diary) {
-//        Heart heart = Heart.create(); // 생성자 직접 호출 방지
-//        heart.setUser(user);
-//        heart.setDiary(diary);
-//        heartsRepository.save(heart);
-//    }
-//}

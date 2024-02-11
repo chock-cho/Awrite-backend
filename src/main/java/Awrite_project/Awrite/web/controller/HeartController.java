@@ -1,38 +1,19 @@
 package Awrite_project.Awrite.web.controller;
 
 
-import Awrite_project.Awrite.domain.Heart;
-import Awrite_project.Awrite.domain.User;
-import Awrite_project.Awrite.service.HeartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/hearts")
+@RequiredArgsConstructor
 public class HeartController {
-    private final HeartService heartService;
 
-    @PostMapping("/hearts/{diaryId}/{userId}")
-    // @PostMapping("/diary/{diaryId}/heart")
-    public ResponseEntity<Void> addHeart(User user, @PathVariable Long diaryId) {
-        Heart heart = heartService.addHeart(user, diaryId);
-//        return ResponseEntity
-//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
-//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
-//                .build();
-        return ResponseEntity.ok().build();
-    }
+    // 모든 좋아요 일기 리스트 조회
 
-    @DeleteMapping("/hearts/{diaryId}/{userId}")
-//    @DeleteMapping("/diary/{diaryId}/heart")
-    public ResponseEntity<Void> deleteHeart(User user, @PathVariable Long diaryId) {
-        heartService.deleteHeart(user, diaryId);
-        return ResponseEntity.noContent().build();
-    }
+    // 좋아요 일기 상세 조회
+
+    // 좋아요 일기 좋아요 취소
+
 }
