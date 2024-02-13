@@ -61,22 +61,16 @@ public class HomeController {
     }
 
     // 좋아요 등록
-    @PostMapping("/hearts/{diaryId}/{userId}")
-    // @PostMapping("/diary/{diaryId}/heart")
+    @PostMapping("/hearts/{diaryId}")
     public ResponseEntity<Void> addHeart(User user, @PathVariable Long diaryId) {
-        Heart heart = homeService.addHeart(user, diaryId);
-//        return ResponseEntity
-//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
-//                .created(URI.create("/diary/" + diaryId + "/heart/" + heart.getId()))
-//                .build();
+        Heart heart = heartService.addHeart(user, diaryId);
         return ResponseEntity.ok().build();
     }
 
     // 좋아요 취소
-    @DeleteMapping("/hearts/{diaryId}/{userId}")
-//    @DeleteMapping("/diary/{diaryId}/heart")
+    @DeleteMapping("/hearts/{diaryId}")
     public ResponseEntity<Void> deleteHeart(User user, @PathVariable Long diaryId) {
-        homeService.deleteHeart(user, diaryId);
+        heartService.deleteHeart(user, diaryId);
         return ResponseEntity.noContent().build();
     }
 }

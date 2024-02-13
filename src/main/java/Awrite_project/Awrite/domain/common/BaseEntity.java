@@ -24,6 +24,9 @@ public abstract class BaseEntity {
     @CreatedDate
     public LocalDateTime createdAt;
 
+    @CreatedDate
+    public LocalDate ymlCreatedAt;
+
     @LastModifiedDate
     public LocalDateTime updatedAt;
 

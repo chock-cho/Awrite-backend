@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
@@ -18,4 +19,6 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     void deleteByAuthorId(@Param("userId") Long userId);
 
     List<Diary> findDiariesByAuthorId(Long authorId);
+
+    public Diary findByAuthorIdAndYmlCreatedAt(Long authorId, LocalDate ymlCreatedAt);
 }

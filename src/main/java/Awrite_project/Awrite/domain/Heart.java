@@ -23,12 +23,12 @@ public class Heart extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE) // 일기 지워지면 좋아요도 지워지게
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
-    private Diary diary;
+    private Diary diary; // 좋아요 눌린 일기
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user; // 좋아요를 누른 유저
 
 
 //    @Builder

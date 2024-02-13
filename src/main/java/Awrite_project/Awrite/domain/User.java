@@ -51,14 +51,14 @@ public class User extends BaseEntity {
     }
 
     // 사용자의 id 값 반환(고유한 값)
-    public String getUsername(){
-        return this.email;
-    }
+//    public String getUsername(){
+//        return this.email;
+//    }
 
     // 사용자의 패스워드 반환
-    public String getPassword(){
-        return this.password;
-    }
+//    public String getPassword(){
+//        return this.password;
+//    }
 
 //    private ~~ profileImg;
 
