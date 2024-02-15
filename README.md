@@ -27,7 +27,7 @@
 * Spring boot
 * JPA
 * MySQL
-* AWS EC2, S3
+* AWS EC2, S3, RDS
 * Swagger
 * Google SMTP mail
 
