@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,13 +46,18 @@ public class Diary extends BaseEntity {
     @Column
     private boolean secret; // 비밀글 여부(공개/비공개 여부)
 
+    @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
     @Builder
-    public Diary(String title, String content, String imgUrl, User author, boolean secret){
-        super();  // Set discriminator value in the constructor
+    public Diary(LocalDate date, String title, String content, String imgUrl, User author, boolean secret){
+        super();
         this.title = title; // 제목
+        this.date = date; // 일기 작성 날짜
         this.content = content; // 내용
         this.author = author; // 작성자
-        this.imgUrl = imgUrl != null && !imgUrl.isEmpty()? imgUrl : null; // 첨부 사진
+        this.imgUrl = (imgUrl != null && !imgUrl.isEmpty())? imgUrl : null; // 첨부 사진
         this.secret = secret; // 비밀글 여부
     }
     //  @OneToMany(mappedBy = "diary")

@@ -5,6 +5,7 @@ import Awrite_project.Awrite.service.UserService.UserLoginService;
 import Awrite_project.Awrite.web.dto.LoginDTO.LoginUserRequestDTO;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,17 +66,17 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody @Valid LoginUserRequestDTO request, HttpSession session){
+    public ApiResponse<String> loginUser(@RequestBody @Valid LoginUserRequestDTO request, HttpSession session){
         User user = userLoginService.login(request.getEmail(), request.getPassword());
 
         if(user != null){
             session.setAttribute("userId", user.getId()); // 세션에 사용자 ID 저장
-            return ResponseEntity.ok("로그인에 성공하였습니다.");
+            return ApiResponse.onSuccess("로그인에 성공하였습니다.");
         }
         else {
             // 로그인 실패 시에도 세션에 사용자 ID 저장 (이 부분을 수정)
             session.setAttribute("userId", null);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패하였습니다.");
+            return ApiResponse.onFailure("LOGIN_FAILURE","로그인에 실패하였습니다.",null);
         }
     }
 

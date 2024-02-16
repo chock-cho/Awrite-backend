@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,6 +24,7 @@ public class DiaryRequestDTO {
     private User author;
 
 
+    private LocalDate date;
     private MultipartFile imgUrl;
     private String title;
     private String content;
@@ -32,8 +34,9 @@ public class DiaryRequestDTO {
     private Integer theme;
     public Diary toEntity(){
         return Diary.builder()
+                .date(date)
                 .author(author)
-                .imgUrl(imgUrl != null ? imgUrl.getOriginalFilename() : null)
+                .imgUrl(imgUrl == null ? null : imgUrl.getOriginalFilename())
                 .title(title)
                 .content(content)
                 .secret(secret)

@@ -44,22 +44,28 @@ public class S3Config {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @PostConstruct
-    public void initializeS3Client() {
+    @Bean
+    public AmazonS3 amazonS3Client() {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        s3Client = AmazonS3ClientBuilder.standard()
+        return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(this.region)
+                .withRegion(region)
                 .build();
     }
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(AmazonS3 amazonS3Client, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
 
-        s3Client.putObject(new PutObjectRequest(bucket,fileName,file.getInputStream(),null)
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(file.getSize());
+
+        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        return s3Client.getUrl(bucket,fileName).toString();
+        String imgUrl = amazonS3Client.getUrl(bucket, fileName).toString();
+        System.out.println("이미지 파일 url: " + imgUrl);
+        return imgUrl;
     }
+
 }

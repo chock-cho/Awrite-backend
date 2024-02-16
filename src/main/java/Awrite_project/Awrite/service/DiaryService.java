@@ -35,11 +35,16 @@ public class DiaryService {
     // 일기 등록
     @Transactional
     public void join(DiaryRequestDTO diaryRequestDTO, Long currentUserId) {
+        String filePath;
         try {
-            if(diaryRequestDTO.getImgUrl() != null){
-                String filePath = s3Config.upload(diaryRequestDTO.getImgUrl());
-                diaryRequestDTO.toEntity().setImgUrl(filePath);
+            if(diaryRequestDTO.getImgUrl() == null){
+                filePath = null;
+                System.out.println("filePath는 null");
             }
+            else {
+                filePath = s3Config.upload(s3Config.amazonS3Client(), diaryRequestDTO.getImgUrl());
+            }
+            System.out.println("filePath: "+filePath);
             // 사용자 ID를 이용하여 사용자 정보를 조회하고, 해당 사용자를 일기 작성자로 설정
             User currentUser = userRepository.findById(currentUserId)
                     .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다."));
@@ -48,6 +53,8 @@ public class DiaryService {
             diaryRequestDTO.setAuthor(currentUser);
 
             Diary diary = diaryRequestDTO.toEntity();
+
+            System.out.println("이미지 파일 경로: "+diary.getImgUrl());
             diaryRepository.save(diary);
         }
         catch(IOException e){

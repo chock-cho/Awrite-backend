@@ -4,16 +4,18 @@ import Awrite_project.Awrite.apiPayload.ApiResponse;
 import Awrite_project.Awrite.service.DiaryService;
 import Awrite_project.Awrite.web.dto.DiaryDTO.DiaryRequestDTO;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 @RestController
 @RequestMapping("/diary")
-@RequiredArgsConstructor
 public class DiaryController {
     private static final Logger logger = Logger.getLogger(DiaryController.class.getName());
     private final DiaryService diaryService;
+
+    public DiaryController(DiaryService diaryService) {
+        this.diaryService = diaryService;
+    }
 
     // 일기 글 등록
     @PostMapping("/write")
