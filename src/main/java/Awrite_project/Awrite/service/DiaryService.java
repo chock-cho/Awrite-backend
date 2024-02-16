@@ -5,11 +5,8 @@ import Awrite_project.Awrite.domain.Diary;
 import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.repository.DiaryRepository;
 import Awrite_project.Awrite.repository.UserRepository;
-import Awrite_project.Awrite.web.dto.DiaryDTO.DiaryListResponseDTO;
 import Awrite_project.Awrite.web.dto.DiaryDTO.DiaryRequestDTO;
 import Awrite_project.Awrite.web.dto.DiaryDTO.DiaryResponseDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,6 +23,14 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final UserRepository userRepository;
     private final S3Config s3Config;
+
+    @Autowired
+    public DiaryService(S3Config s3Config, UserRepository userRepository, DiaryRepository diaryRepository) {
+        this.s3Config = s3Config;
+        this.userRepository = userRepository;
+        this.diaryRepository = diaryRepository;
+        System.out.println("DiaryService created with S3Config: " + s3Config);
+    }
 
     // 일기 등록
     @Transactional
@@ -52,6 +54,8 @@ public class DiaryService {
             throw new RuntimeException(e);
         }
     }
+
+
 
     @Transactional
     // 일기 삭제

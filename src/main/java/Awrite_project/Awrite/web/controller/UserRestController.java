@@ -1,5 +1,6 @@
 package Awrite_project.Awrite.web.controller;
 
+import Awrite_project.Awrite.apiPayload.exception.DuplicateEmailException;
 import Awrite_project.Awrite.service.UserService.UserLoginService;
 import Awrite_project.Awrite.web.dto.LoginDTO.LoginUserRequestDTO;
 import jakarta.mail.MessagingException;
@@ -30,22 +31,37 @@ public class UserRestController {
 
     @PostMapping("/join")
     public ApiResponse<UserResponseDTO.JoinResultDTO> join(@RequestBody @Valid UserRequestDTO.JoinDto request){
-        User member = userCommandService.joinUser(request);
-        return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(member));
+        try {
+            User member = userCommandService.joinUser(request);
+            return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(member));
+        } catch(DuplicateEmailException e){
+            return ApiResponse.onFailure("DUPLICATE_EMAIL", "이미 가입된 이메일입니다.", null);
+        } catch(Exception e){
+            return ApiResponse.onFailure("UNKNOWN_ERROR", "알 수 없는 오류가 발생했습니다.", null);
+        }
+
     }
 
     @PostMapping("/join/email-check")
     public ApiResponse<String> sendVerificationCode(
         @RequestBody @Valid UserRequestDTO.EmailDto request) throws MessagingException {
-        userCommandService.sendVerificationCode(request.getEmail());
-        return ApiResponse.onSuccess("해당 이메일로 인증 코드를 전송하였습니다.");
+        try {
+            userCommandService.sendVerificationCode(request.getEmail());
+            return ApiResponse.onSuccess("해당 이메일로 인증 코드를 전송하였습니다.");
+        } catch (MessagingException e){
+            return ApiResponse.onFailure("EMAIL_SEND_FAILURE", "인증 코드 발송 실패", null);
+        }
     }
 
     @PostMapping("/join/code-verification")
     public ApiResponse<String> codeVerification(
             @RequestBody @Valid UserRequestDTO.CodeVerificationDto request){
-        userCommandService.completeRegisteration(request);
-        return ApiResponse.onSuccess("회원가입이 성공적으로 완료되었습니다.");
+        try {
+            userCommandService.completeRegisteration(request);
+            return ApiResponse.onSuccess("이메일 인증에 성공하였습니다. 회원가입이 성공적으로 완료되었습니다.");
+        } catch(Exception e){
+            return ApiResponse.onFailure("CODE_VERIFICATION_FAILURE", "코드 인증에 실패하여 회원가입에 실패하였습니다.", null);
+        }
     }
 
     @PostMapping("/login")
@@ -65,12 +81,16 @@ public class UserRestController {
 
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // 세션 무효화
+    public ApiResponse<String> logout(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate(); // 세션 무효화
+            }
+            return ApiResponse.onSuccess("로그아웃 처리 되었습니다");
+        } catch (Exception e) {
+            return ApiResponse.onFailure("LOGOUT_FAILURE", "로그아웃 처리 중에 오류가 발생했습니다.", null);
         }
-        return "로그아웃 처리 되었습니다"; // 로그아웃 후 리다이렉트할 페이지
     }
 
 }

@@ -54,7 +54,7 @@ public class PasswordResetService {
     }
 
     private void sendResetLinkEmail(String userEmail, String resetToken) throws MessagingException {
-        String resetLink = "http://localhost:8080/myPage/users/password-reset?token="+resetToken;
+        String resetLink = "http://43.201.161.83:8080//myPage/users/password-reset?token="+resetToken;
         // 로컬호스트라서 resetLink가 이렇게 발급됩니다.
         // 이제 userQueryService를 사용할 수 있습니다.
         User user = userQueryService.verifyPasswordResetTokenGet(resetToken);

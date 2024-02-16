@@ -1,5 +1,6 @@
 package Awrite_project.Awrite.service.UserService;
 
+import Awrite_project.Awrite.apiPayload.exception.DuplicateEmailException;
 import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.service.EmailService;
 import Awrite_project.Awrite.web.dto.UserDTO.UserRequestDTO;
@@ -27,6 +28,10 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Transactional
     public User joinUser(UserRequestDTO.JoinDto request) {
 
+        // 중복 이메일 체크
+        if(userRepository.existsByEmail((request.getEmail()))) {
+            throw new DuplicateEmailException("이미 가입된 이메일입니다.");
+        }
         User newUser = UserConverter.toUser(request);
         newUser.setPassword(newUser.getPassword());
         newUser.setVerified(false);

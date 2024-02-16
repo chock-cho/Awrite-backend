@@ -1,5 +1,6 @@
 package Awrite_project.Awrite.web.dto.DiaryDTO;
 
+import Awrite_project.Awrite.config.S3Config;
 import Awrite_project.Awrite.domain.Diary;
 import Awrite_project.Awrite.domain.User;
 import jakarta.validation.constraints.Max;
@@ -7,12 +8,16 @@ import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Component
+
 /*  일기 작성 시 사용할 DTO  */
 public class DiaryRequestDTO {
     private User author;
@@ -38,5 +43,4 @@ public class DiaryRequestDTO {
     public void setAuthor(User author) {
         this.author = author;
     }
-
 }
