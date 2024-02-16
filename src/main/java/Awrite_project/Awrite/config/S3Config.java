@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Configuration
 public class S3Config {
+
     private AmazonS3 s3Client;
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
@@ -44,28 +45,28 @@ public class S3Config {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @Bean
-    public AmazonS3 amazonS3Client() {
+    @PostConstruct
+    public void initializeS3Client() {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        return AmazonS3ClientBuilder.standard()
+        s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(region)
+                .withRegion(this.region)
                 .build();
     }
 
-    public String upload(AmazonS3 amazonS3Client, MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+    public String upload(MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID().toString();
+        String fileKey = "uploads/" + fileName;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
 
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
+        s3Client.putObject(new PutObjectRequest(bucket, fileKey, file.getInputStream(), metadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        String imgUrl = amazonS3Client.getUrl(bucket, fileName).toString();
-        System.out.println("이미지 파일 url: " + imgUrl);
-        return imgUrl;
-    }
+        String fileUrl = "https://" + bucket + ".s3.amazonaws.com/" + fileKey;
 
+        return fileUrl;
+    }
 }

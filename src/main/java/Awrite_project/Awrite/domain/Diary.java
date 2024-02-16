@@ -4,6 +4,7 @@ import Awrite_project.Awrite.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -41,6 +42,7 @@ public class Diary extends BaseEntity {
     private User author; // 작성자 pk(FK)
 
     @Column
+    @NotNull
     private String imgUrl; // 첨부 이미지 파일
 
     @Column

@@ -23,8 +23,11 @@ import java.time.LocalDate;
 public class DiaryRequestDTO {
     private User author;
 
+    @Autowired
+    private S3Config s3Config;
 
     private LocalDate date;
+
     private MultipartFile imgUrl;
     private String title;
     private String content;
@@ -32,11 +35,11 @@ public class DiaryRequestDTO {
     @Min(value = 1, message = "테마 값은 1 이상이어야 합니다.")
     @Max(value = 4, message = "테마 값은 4 이하여야 합니다.")
     private Integer theme;
-    public Diary toEntity(){
+    public Diary toEntity() throws IOException {
         return Diary.builder()
                 .date(date)
                 .author(author)
-                .imgUrl(imgUrl == null ? null : imgUrl.getOriginalFilename())
+                .imgUrl(imgUrl.getOriginalFilename())
                 .title(title)
                 .content(content)
                 .secret(secret)
