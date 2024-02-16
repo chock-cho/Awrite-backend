@@ -46,13 +46,15 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     @Transactional
-    public void sendVerificationCode(String email) throws MessagingException {
+    public String sendVerificationCode(String email) throws MessagingException {
         String verificationCode = generateVerificationCode();
         emailService.sendEmail(email, verificationCode);
 
         User user = userRepository.findByEmail(email);
         user.setVerificationCode(verificationCode);
         userRepository.save(user);
+
+        return verificationCode;
     }
 
     @Override

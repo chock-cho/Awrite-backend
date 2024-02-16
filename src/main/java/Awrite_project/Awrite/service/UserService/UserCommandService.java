@@ -11,6 +11,6 @@ public interface UserCommandService {
 
     User joinUser(UserRequestDTO.JoinDto request);
 
-    void sendVerificationCode(@NotNull @NotBlank @Email String request) throws MessagingException;
+    String sendVerificationCode(@NotNull @NotBlank @Email String request) throws MessagingException;
     void completeRegisteration(UserRequestDTO.CodeVerificationDto request);
 }

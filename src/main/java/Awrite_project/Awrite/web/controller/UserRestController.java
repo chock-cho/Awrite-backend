@@ -46,8 +46,8 @@ public class UserRestController {
     public ApiResponse<String> sendVerificationCode(
         @RequestBody @Valid UserRequestDTO.EmailDto request) throws MessagingException {
         try {
-            userCommandService.sendVerificationCode(request.getEmail());
-            return ApiResponse.onSuccess("해당 이메일로 인증 코드를 전송하였습니다.");
+            String verificationCode = userCommandService.sendVerificationCode(request.getEmail());
+            return ApiResponse.onSuccess("해당 이메일로 인증 코드를 전송하였습니다:" +verificationCode);
         } catch (MessagingException e){
             return ApiResponse.onFailure("EMAIL_SEND_FAILURE", "인증 코드 발송 실패", null);
         }
