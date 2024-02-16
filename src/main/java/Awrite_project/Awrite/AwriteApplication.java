@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@OpenAPIDefinition(servers = {@Server(url = "https://localhost:8080/", description = "Default Server URL")})
-
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableJpaAuditing
 public class AwriteApplication {
