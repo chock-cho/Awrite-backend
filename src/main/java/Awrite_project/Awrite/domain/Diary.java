@@ -37,7 +37,7 @@ public class Diary extends BaseEntity {
     @Max(value = 4, message = "유효하지 않은 테마 값입니다. 4이하의 테마 값을 입력하세요")
     private Integer theme; // 일기 테마(감정)
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // 추가된 부분
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author; // 작성자 pk(FK)
 

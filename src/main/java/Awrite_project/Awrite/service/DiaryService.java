@@ -56,10 +56,7 @@ public class DiaryService {
 
 
     @Transactional
-    // 일기 삭제
-    public void deleteDiary(Long diaryId, Long currentUserId){
-
-
+    public void deleteDiary(Long diaryId, Long currentUserId) {
         // 삭제할 일기가 존재하는지 확인
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new NoSuchElementException("삭제할 일기가 존재하지 않습니다."));
