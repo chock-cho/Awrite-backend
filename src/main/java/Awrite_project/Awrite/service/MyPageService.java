@@ -152,9 +152,9 @@ public class MyPageService {
 //    내 글 가져오기
 //    클릭한 날짜 == 내 글 중 그 날짜에 작성한 글 가져오기
 //    상세조회
-    public DiaryResponseDTO clickDate(Long currentUserId, LocalDate ymlCreatedAt) {
+    public DiaryResponseDTO clickDate(Long currentUserId, LocalDate date) {
         try {
-            Diary diary = diaryRepository.findByAuthorIdAndYmlCreatedAt(currentUserId, ymlCreatedAt);
+            Diary diary = diaryRepository.findByAuthorIdAndDate(currentUserId, date);
 
             return new DiaryResponseDTO(diary);
         } catch (NoSuchElementException e) {

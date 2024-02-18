@@ -21,7 +21,7 @@ public class MyPageHeartListResponseDTO {
     private String authorName; // 작성자 이름
     private int authorProfile; // 작성자 프로필 사진
     private int theme;
-    private LocalDate ymlCreatedAt;
+    private LocalDate date;
     private Long heartsCount; // 좋아요 개수
     private boolean heartby; // 로그인한 사용자가 좋아요 눌렀는
 
@@ -34,7 +34,7 @@ public class MyPageHeartListResponseDTO {
         this.authorName = (diary.getAuthor() != null) ? diary.getAuthor().getNickname() : null;
         this.authorProfile = (diary.getAuthor() != null) ? diary.getAuthor().getProfilePicture() : 1;
         this.theme = diary.getTheme();
-        this.ymlCreatedAt = diary.getYmlCreatedAt();
+        this.date = diary.getDate();
         this.heartsCount = diary.countHearts();
         this.heartby = heartby;
 

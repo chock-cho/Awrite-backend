@@ -22,7 +22,7 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     List<Diary> findDiariesByAuthorId(Long authorId);
 
-    public Diary findByAuthorIdAndYmlCreatedAt(Long currentUserId, LocalDate ymlCreatedAt);
+    public Diary findByAuthorIdAndDate(Long currentUserId, LocalDate Date);
 
     List<Diary> findDiariesByHeartsUserId(Long userId);
 
