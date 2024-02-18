@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,13 +24,21 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final UserRepository userRepository;
     private final S3Config s3Config;
-
     @Autowired
     public DiaryService(S3Config s3Config, UserRepository userRepository, DiaryRepository diaryRepository) {
-        this.s3Config = s3Config;
         this.userRepository = userRepository;
         this.diaryRepository = diaryRepository;
+        this.s3Config = s3Config;
         System.out.println("DiaryService created with S3Config: " + s3Config);
+    }
+
+    // 파일 이름에서 확장자 추출
+    private String extractExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex >= 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        }
+        return "";
     }
 
     // 일기 등록
@@ -42,12 +51,17 @@ public class DiaryService {
 
             // DiaryRequestDTO에 사용자 정보 설정
             diaryRequestDTO.setAuthor(currentUser);
+            String fileExtension = extractExtension(Objects.requireNonNull(diaryRequestDTO.getImgUrl().getOriginalFilename()));
+            String changeImgUrl = s3Config.upload(diaryRequestDTO.getImgUrl(), fileExtension);
+
             Diary diary = diaryRequestDTO.toEntity();
-            diary.setImgUrl(s3Config.upload(diaryRequestDTO.getImgUrl()));
+            diary.setImgUrl(changeImgUrl);
             System.out.println("저장된 파일: " + diary.getImgUrl());
 
             diaryRepository.save(diary);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

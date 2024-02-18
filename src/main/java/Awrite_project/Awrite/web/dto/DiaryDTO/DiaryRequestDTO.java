@@ -43,7 +43,7 @@ public class DiaryRequestDTO {
     private Integer theme;
     public Diary toEntity() throws IOException {
         return Diary.builder()
-                .date(date)
+                .date(date) // 문자열을 LocalDate로 변환
                 .author(author)
                 .imgUrl(imgUrl.getOriginalFilename())
                 .title(title)

@@ -35,23 +35,11 @@ public class HomeService {
     // 모든 일기 리스트 조회
     public List<DiaryListResponseDTO> getDiaryList(Long currentUserId) {
         try {
-            // 사용자와 일치하는 일기 가져오기
-            List<DiaryListResponseDTO> userDiaryList = diaryRepository.findDiariesByAuthorId(currentUserId)
+            List<DiaryListResponseDTO> diaryList = diaryRepository.findAll()
                     .stream()
+                    .filter(diary -> !diary.isSecret() || diary.getAuthor().getId().equals(currentUserId))
                     .map(DiaryListResponseDTO::new)
                     .collect(Collectors.toList());
-
-            // 모든 일기 리스트 중 secret이 아닌 일기 가져오기
-            List<DiaryListResponseDTO> nonSecretDiaryList = diaryRepository.findAll()
-                    .stream()
-                    .filter(diary -> !diary.isSecret())
-                    .map(DiaryListResponseDTO::new)
-                    .collect(Collectors.toList());
-
-            // 두 리스트를 합침
-            List<DiaryListResponseDTO> diaryList = new ArrayList<>();
-            diaryList.addAll(userDiaryList);
-            diaryList.addAll(nonSecretDiaryList);
 
             return diaryList;
         } catch (Exception e) {
@@ -59,6 +47,8 @@ public class HomeService {
             return Collections.emptyList();
         }
     }
+
+
     // 일기 상세 조회
     public DiaryResponseDTO clickDiary(Long diaryId, Long currentUserId) {
         try {

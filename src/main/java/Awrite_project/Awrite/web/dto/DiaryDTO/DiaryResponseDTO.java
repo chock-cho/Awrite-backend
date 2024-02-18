@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 /* 일기 하나 상세 조회 시 반환할 DTO */
 public class DiaryResponseDTO {
 
-    private LocalDate ymlCreatedAt;
+    private LocalDate date;
     private String title;
     private String content;
     private String imgUrl;
@@ -23,7 +23,7 @@ public class DiaryResponseDTO {
     private int myProfile; // 작성자 프로필 사진
 
     public DiaryResponseDTO(Diary diary){
-        this.ymlCreatedAt = diary.getYmlCreatedAt();
+        this.date = diary.getDate();
         this.title = diary.getTitle();
         this.content = diary.getContent();
         this.imgUrl = diary.getImgUrl();

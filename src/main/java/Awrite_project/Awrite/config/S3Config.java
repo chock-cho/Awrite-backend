@@ -55,9 +55,9 @@ public class S3Config {
                 .build();
     }
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file, String fileExtension) throws IOException {
         String fileName = UUID.randomUUID().toString();
-        String fileKey = "uploads/" + fileName;
+        String fileKey = "uploads/" + fileName + "." + fileExtension;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
