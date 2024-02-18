@@ -118,7 +118,10 @@ public class MyPageService {
             // 사용자와 일치하는 일기 가져오기
             List<MyPageHeartListResponseDTO> userList = diaryRepository.findDiariesByAuthorId(currentUserId)
                     .stream()
-                    .map(MyPageHeartListResponseDTO::new)
+                    .map(diary -> {
+                        boolean heartby = diaryRepository.isHeartByUser(diary.getId(), currentUserId);
+                        return new MyPageHeartListResponseDTO(diary, heartby);
+                    })
                     .collect(Collectors.toList());
 
             // 사용자와 일치하는 일기 중 좋아요 top5 일기 가져오기

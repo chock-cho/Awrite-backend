@@ -23,4 +23,9 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findDiariesByAuthorId(Long authorId);
 
     public Diary findByAuthorIdAndYmlCreatedAt(Long currentUserId, LocalDate ymlCreatedAt);
+
+    List<Diary> findDiariesByHeartsUserId(Long userId);
+
+    @Query("SELECT COUNT(h) > 0 FROM Diary d JOIN d.hearts h WHERE d.id = :diaryId AND h.user.id = :userId")
+    boolean isHeartByUser(@Param("diaryId") Long diaryId, @Param("userId") Long userId);
 }

@@ -19,7 +19,7 @@ public class DiaryListResponseDTO {
     private int authorProfile; // 작성자 프로필 사진
     private boolean heartby; // 로그인한 사용자가 좋아요 눌렀는
 
-    public DiaryListResponseDTO(Diary diary){
+    public DiaryListResponseDTO(Diary diary, boolean heartby){
         this.diaryId = diary.getId();
         this.title = diary.getTitle();
         this.content = diary.getContent();
@@ -27,7 +27,7 @@ public class DiaryListResponseDTO {
         this.secret = diary.isSecret();
         this.authorName = (diary.getAuthor() != null) ? diary.getAuthor().getNickname() : null;
         this.authorProfile = (diary.getAuthor() != null) ? diary.getAuthor().getProfilePicture() : 1;
-        this.heartby = diary.isHeartBy(diary.getAuthor());
+        this.heartby = heartby;
     }
 
 }

@@ -38,7 +38,10 @@ public class HomeService {
             List<DiaryListResponseDTO> diaryList = diaryRepository.findAll()
                     .stream()
                     .filter(diary -> !diary.isSecret() || diary.getAuthor().getId().equals(currentUserId))
-                    .map(DiaryListResponseDTO::new)
+                    .map(diary -> {
+                        boolean heartby = diaryRepository.isHeartByUser(diary.getId(), currentUserId);
+                        return new DiaryListResponseDTO(diary, heartby);
+                    })
                     .collect(Collectors.toList());
 
             return diaryList;

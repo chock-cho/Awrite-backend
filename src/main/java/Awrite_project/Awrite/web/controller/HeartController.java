@@ -1,6 +1,7 @@
 package Awrite_project.Awrite.web.controller;
 
 
+import Awrite_project.Awrite.apiPayload.ApiResponse;
 import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.service.DiaryService;
 import Awrite_project.Awrite.service.HeartService;
@@ -61,12 +62,12 @@ public class HeartController {
 
     // 좋아요한 일기 좋아요 취소
     @DeleteMapping("/{diaryId}/{userId}")
-    public ResponseEntity<Void> deleteHeart(@PathVariable Long diaryId, HttpServletRequest request) {
+    public ApiResponse<String> deleteHeart(@PathVariable Long diaryId, HttpServletRequest request) {
         // 세션에서 사용자 ID 가져오기
         Long currentUserId = (Long)request.getSession().getAttribute("userId");
 
         heartService.deleteHeart(currentUserId, diaryId);
 
-        return ResponseEntity.noContent().build();
+        return ApiResponse.onSuccess("좋아요 취소에 성공하였습니다.");
     }
 }

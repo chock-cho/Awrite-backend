@@ -70,10 +70,10 @@ public class Diary extends BaseEntity {
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
     private List<Heart> hearts = new ArrayList<>();
 
-    public boolean isHeartBy(User user) {
-        Objects.requireNonNull(user);
-        return this.hearts.stream().anyMatch(it -> it.getUser() == user);
-    }
+//    public boolean isHeartBy(User user) {
+//        Objects.requireNonNull(user);
+//        return this.hearts.stream().anyMatch(it -> it.getUser() == user);
+//    }
 
     public long countHearts() {
         return this.hearts.size();

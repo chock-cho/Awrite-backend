@@ -30,14 +30,19 @@ public class HeartService {
     // 모든 좋아요 일기 리스트 조회
     public List<DiaryListResponseDTO> getHeartDiaryList(Long currentUserId) {
         try {
-            // 사용자와 일치하는 일기 가져오기
-            List<DiaryListResponseDTO> heartDiaryList = diaryRepository.findDiariesByAuthorId(currentUserId)
+            // 사용자가 좋아요를 누른 Diary 목록 가져오기
+            List<Diary> heartDiaryList = diaryRepository.findDiariesByHeartsUserId(currentUserId);
+
+            // DiaryListResponseDTO로 변환
+            List<DiaryListResponseDTO> heartDiaryResponseList = heartDiaryList
                     .stream()
-                    .filter(diary -> diary.countHearts() >= 1 ) // 다이어리 좋아요 개수 1개 이상일 때만
-                    .map(DiaryListResponseDTO::new)
+                    .map(diary -> {
+                        boolean heartby = diaryRepository.isHeartByUser(diary.getId(), currentUserId);
+                        return new DiaryListResponseDTO(diary, heartby);
+                    })
                     .collect(Collectors.toList());
 
-            return heartDiaryList;
+            return heartDiaryResponseList;
         } catch (Exception e) {
             // 예외 처리
             return Collections.emptyList();

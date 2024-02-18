@@ -1,5 +1,6 @@
 package Awrite_project.Awrite.web.controller;
 
+import Awrite_project.Awrite.apiPayload.ApiResponse;
 import Awrite_project.Awrite.domain.Heart;
 import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.repository.DiaryRepository;
@@ -63,25 +64,26 @@ public class HomeController {
 
     // 좋아요 등록
     @PostMapping("/hearts/{diaryId}")
-    public ResponseEntity<Void> addHeart(@PathVariable Long diaryId,
-                                         HttpServletRequest request) {
+    public ApiResponse<String> addHeart(@PathVariable Long diaryId,
+                                        HttpServletRequest request) {
         // 세션에서 사용자 ID 가져오기
         Long currentUserId = (Long)request.getSession().getAttribute("userId");
 
         Heart heart = heartService.addHeart(currentUserId, diaryId);
 
-        return ResponseEntity.ok().build();
+        return ApiResponse.onSuccess("좋아요 등록에 성공하였습니다.");
     }
 
     // 좋아요 취소
     @DeleteMapping("/hearts/{diaryId}")
-    public ResponseEntity<Void> deleteHeart(@PathVariable Long diaryId,
-                                            HttpServletRequest request) {
+    public ApiResponse<String> deleteHeart(@PathVariable Long diaryId,
+                                           HttpServletRequest request) {
         // 세션에서 사용자 ID 가져오기
         Long currentUserId = (Long)request.getSession().getAttribute("userId");
 
         heartService.deleteHeart(currentUserId, diaryId);
 
-        return ResponseEntity.noContent().build();
+        return ApiResponse.onSuccess("좋아요 취소에 성공하였습니다.");
     }
 }
+

@@ -10,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -70,5 +72,8 @@ public class User extends BaseEntity {
 
     @Column(name = "token_expiry")
     private LocalDateTime tokenExpiry;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Heart> hearts = new ArrayList<>();
 
 }
