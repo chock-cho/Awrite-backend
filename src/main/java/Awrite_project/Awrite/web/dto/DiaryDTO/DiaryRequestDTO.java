@@ -9,11 +9,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -26,7 +32,7 @@ public class DiaryRequestDTO {
     @Autowired
     private S3Config s3Config;
 
-    private LocalDate date;
+    private LocalDate date; //yyyy-MM-dd 형식
 
     private MultipartFile imgUrl;
     private String title;
@@ -49,4 +55,5 @@ public class DiaryRequestDTO {
     public void setAuthor(User author) {
         this.author = author;
     }
+
 }

@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,8 +49,9 @@ public class Diary extends BaseEntity {
     @Column
     private boolean secret; // 비밀글 여부(공개/비공개 여부)
 
-    @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(unique = true)
+    @NotNull
+    // 지정 날짜. 한 날짜 당 하나의 일기만 조회 가능해야 한다.
     private LocalDate date;
 
     @Builder
@@ -76,5 +78,6 @@ public class Diary extends BaseEntity {
     public long countHearts() {
         return this.hearts.size();
     }
+
 
 }

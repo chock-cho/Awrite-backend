@@ -1,11 +1,16 @@
 package Awrite_project.Awrite.web.controller;
 
 import Awrite_project.Awrite.apiPayload.ApiResponse;
+import Awrite_project.Awrite.domain.Diary;
+import Awrite_project.Awrite.domain.User;
 import Awrite_project.Awrite.service.DiaryService;
 import Awrite_project.Awrite.web.dto.DiaryDTO.DiaryRequestDTO;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.logging.Logger;
 @RestController
 @RequestMapping("/diary")
@@ -19,9 +24,25 @@ public class DiaryController {
 
     // 일기 글 등록
     @PostMapping("/write")
-    public ApiResponse<String> saveDiary(DiaryRequestDTO diaryRequestDTO, HttpServletRequest request) {
+    public ApiResponse<String> saveDiary(
+                                             @RequestParam("date") LocalDate date,
+                                             @RequestParam("imgUrl") MultipartFile imgUrl,
+                                             @RequestParam("title") String title,
+                                             @RequestParam("content") String content,
+                                             @RequestParam("secret") boolean secret,
+                                             @RequestParam("theme") int theme
+                                                 ,HttpServletRequest request) {
         try {
             // 세션에서 사용자 ID 가져오기
+            // Diary 객체 생성 및 처리
+            DiaryRequestDTO diaryRequestDTO = new DiaryRequestDTO();
+            diaryRequestDTO.setDate(date);
+            diaryRequestDTO.setImgUrl(imgUrl);
+            diaryRequestDTO.setTitle(title);
+            diaryRequestDTO.setContent(content);
+            diaryRequestDTO.setSecret(secret);
+            diaryRequestDTO.setTheme(theme);
+
             Long currentUserId = (Long)request.getSession().getAttribute("userId");
             // 세션에 저장된 userId 로그로 출력
             diaryService.join(diaryRequestDTO, currentUserId);
